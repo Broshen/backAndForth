@@ -1,5 +1,4 @@
 
-console.log("the fuck?");
 var btnToEng = $("#transToEng");
 var btnToLang = $("#transToLang");
 var customerMsg = $("#customerMsg");
@@ -12,7 +11,6 @@ var responseMid = "\n\nOriginal Message:"
 var bestRegards = "Best regards,";
 
 btnToEng.click(function(){
-	console.log("jquery... how does it work?");
 	var msgText = customerMsg.val();
 
 	var urlToEng = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=" + encodeURI(msgText);
@@ -37,10 +35,8 @@ btnToEng.click(function(){
 btnToLang.click(function(){
 	var msgText = myMsg.val();
 	
-	console.log(msgText);
 
 	var urlToLang = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+lang+"&dt=t&q="+encodeURI(responseBefore + msgText + responseMid);
-	console.log(lang);
 	var xmlhttp = new XMLHttpRequest();	
   	xmlhttp.onreadystatechange = function() {
 	    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -48,7 +44,6 @@ btnToLang.click(function(){
 	    	var response = xmlhttp.responseText;
 	    	response = parseResponse(response);
 	    	response[0] += "\n\n"+msgText + "\n\n" + bestRegards;
-	    	console.log("final response: " + response[0]);
 	    	myTrans[0].innerText = response[0];
 	    }
 	};
@@ -59,7 +54,6 @@ btnToLang.click(function(){
 
 function parseResponse(response){
 	var responseText = "";
-	console.log(response);
 	response = response.replace(new RegExp(",{2,}", "g"), ",");
 	response = JSON.parse(response);
 
@@ -82,7 +76,6 @@ function translateBestRegards(){
 	    	var response = xmlhttp.responseText;
 	    	response = parseResponse(response);
 	    	bestRegards = response[0];
-	    	console.log(bestRegards);
 	    }
 	};
 	xmlhttp.open("GET", url, true);
