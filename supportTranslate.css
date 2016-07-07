@@ -7,6 +7,10 @@
 	height: 45vh;
 }
 
+.col-sm-4{
+	height: 45vh;
+}
+
 .well{
 	height: 95%;       
 	overflow: auto;
@@ -39,10 +43,15 @@ textarea {
 	max-height: 10%;
 }
 
-#lang{
+.lang{
 	float:right;
 	text-align: center;
 	margin-right: 2vw;
+}
+
+#langInput{
+
+	width: 6em;
 }
 
 .btn btn-default{
