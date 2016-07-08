@@ -13,7 +13,7 @@ var transMid = responseMid;
 var bestRegards = "Best regards,";
 
 function translateURL(sourceLang, transLang, message){
-	return "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + transLang + "&dt=t&q="+encodeURI(message);
+	return "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + transLang + "&dt=t&q="+encodeURIComponent(message);
 }
 
 function parseResponse(response){
