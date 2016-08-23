@@ -4,11 +4,11 @@
 }
 
 .col-sm-6{
-	height: 45vh;
+	height: 30vh;
 }
 
 .col-sm-4{
-	height: 45vh;
+	height: 60vh;
 }
 
 .well{
@@ -17,13 +17,13 @@
 }
 
 .textDisplay{
-	height: 85%;
+	height: 80%;
 	overflow:auto;
 	word-wrap: break-word;
 }
 
-textarea {
-    resize: none;
+textarea{
+	resize: none;
 }
 
 #customerMsg{
@@ -32,26 +32,24 @@ textarea {
 }
 
 #myMsg{
-	height: 40% !important;
+	height: 75% !important;	
+	
 }
 
-#before{
-	max-height: 25%;
+.myMsgContent{
+	background-color:  #add8e6;
 }
 
-#after{
-	max-height: 10%;
+#myTrans{
+	min-height: 75% !important;
+	height: 75% !important;
 }
+
 
 .lang{
 	float:right;
 	text-align: center;
 	margin-right: 2vw;
-}
-
-#langInput{
-
-	width: 6em;
 }
 
 .btn btn-default{

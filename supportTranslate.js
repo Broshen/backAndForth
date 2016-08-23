@@ -6,11 +6,13 @@ var customerTrans = $("#customerTrans");
 var myMsg = $("#myMsg");
 var myTrans = $("#myTrans");
 var lang="en";
-var responseBefore = "Hello,\nFor your convenience, this message was translated by Google Translate:";
-var responseMid = "Original Message:";
-var transBefore = responseBefore;
-var transMid = responseMid;
-var bestRegards = "Best regards,";
+var transBefore = "For your convenience, this message has been translated by Google Translate: "
+var bestRegards = "Best regards, ";
+var clipboardBtn = $('#clipboardBtn');
+var isAuto=true;
+var msgText;
+
+var languageBar = $('#langInput').select2({ width: '150px' });
 
 function translateURL(sourceLang, transLang, message){
 	return "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + transLang + "&dt=t&q="+encodeURIComponent(message);
@@ -56,18 +58,25 @@ function translateRequest(url, callbackfn){
 		});	
 }
 
-
 function translateToEng(){
+	var LangFrom;
+
+	if(isAuto){
+		LangFrom='auto';
+	}
+	else{
+		LangFrom=$('#langInput').val();
+	}
 
 	var msgText = customerMsg.val();
 
-	var urlToEng = translateURL('auto', 'en', msgText);
+	var urlToEng = translateURL(LangFrom, 'en', msgText);
 
 	translateRequest(urlToEng, function(response){
     	customerTrans[0].innerText = response[0];
     	lang = response[1];
-    	if($('#langInput').val() != lang){
-			$('#langInput').val(lang);
+    	if(isAuto && $('#langInput').val() != lang){
+			languageBar.val(lang).trigger('change');
 
 			updateFillerText();
     	}
@@ -75,17 +84,22 @@ function translateToEng(){
 }
 
 function translateToLang(){
-	var msgText = myMsg.val() ;
+
+	if (lang != $('#langInput').val()){
+		updateFillerText();
+	}
+
+	lang = $('#langInput').val();
+
+	var msgText = myMsg.val()
 
 	var urlToLang = translateURL('en', lang, msgText);
 
 	translateRequest(urlToLang, function(response){
 
-		myTrans[0].innerText = transBefore +"\n\n"+ response[0] +"\n\n"+ transMid + "\n\n"+msgText + "\n\n" + bestRegards;
-
+		myTrans[0].innerText = transBefore +"\n\n"+ response[0] +"\n\n"+ "------" + "\n\n"+ msgText + "\n\n" + bestRegards;
 
 		var urlBack = translateURL(lang, 'en', response[0]);
-		console.log(response[0]);
 
 		translateRequest(urlBack, function(response){
 			if(response[1]){				
@@ -98,9 +112,9 @@ function translateToLang(){
 
 function updateFillerText(){
 	lang = $('#langInput').val();
-	var urlRegards = translateURL('en', lang, 'Best regards');
-	var urlBefore = translateURL('en', lang, responseBefore);
-	var urlMid = translateURL('en', lang, responseMid);
+	var urlRegards = translateURL('en', lang, "Best regards, ");
+	var urlBefore = translateURL('en', lang, "For your convenience, this message has been translated by Google Translate: ");
+
 
 	translateRequest(urlRegards, function(response){
 		bestRegards = response[0];
@@ -108,19 +122,16 @@ function updateFillerText(){
 	translateRequest(urlBefore, function(response){
 		transBefore = response[0];
 	});
-	translateRequest(urlMid, function(response){
-		transMid = response[0];
-	});
 
 }
 
 btnToEng.click(translateToEng);
 
+btnToLang.click(translateToLang);
+
 customerMsg.on('paste keyup', function(e){
 	translateToEng();});
 
-var test;
-btnToLang.click(translateToLang);
 
 myMsg.on('paste keyup', function(e){
 	translateToLang();
@@ -130,4 +141,22 @@ $('#langInput').on('paste keyup', function(e){
 	updateFillerText();
 	setTimeout("translateToLang()", 100);
 });
+
+$('#autoTranslate').on('change', function(e){
+	isAuto = $('#autoTranslate')[0].checked
+	$('#langInput')[0].disabled=isAuto;
+	translateToEng();
+})
+
+var clipboard = new Clipboard('#clipboardBtn');
+
+clipboard.on('success', function(e) {
+
+    e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+});
+
+translateToLang();
 
