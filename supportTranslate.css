@@ -1,19 +1,24 @@
+body{
+	background-color: black;
+}
 .container-fluid{
 	margin-top: 5vh;
 	font: 13px "Helvetica Neue",Helvetica,Arial,sans-serif;
+
 }
 
 .col-sm-6{
-	height: 30vh;
+	height: 31vh;
 }
 
 .col-sm-4{
-	height: 60vh;
+	height: 59vh;
 }
 
 .well{
 	height: 95%;       
 	overflow: auto;
+	background-color: white;
 }
 
 .textDisplay{
@@ -52,7 +57,6 @@ textarea{
 	margin-right: 2vw;
 }
 
-.btn btn-default{
+.btn {
 	float:left;
-
 }
