@@ -77,17 +77,15 @@ function translateToEng(){
     	lang = response[1];
     	if(isAuto && $('#langInput').val() != lang){
 			languageBar.val(lang).trigger('change');
-
-			updateFillerText();
+			translateToLang();
+			//updateFillerText();
     	}
 	});
 }
 
 function translateToLang(){
 
-	if (lang != $('#langInput').val()){
-		updateFillerText();
-	}
+	//updateFillerText();
 
 	lang = $('#langInput').val();
 
@@ -97,7 +95,7 @@ function translateToLang(){
 
 	translateRequest(urlToLang, function(response){
 
-		myTrans[0].innerText = transBefore +"\n\n"+ response[0] +"\n\n"+ "------" + "\n\n"+ msgText + "\n\n" + bestRegards;
+		myTrans[0].innerText = response[0] +"\n\n"+ "------" + "\n\n"+ msgText;
 
 		var urlBack = translateURL(lang, 'en', response[0]);
 
@@ -110,20 +108,20 @@ function translateToLang(){
 }
 
 
-function updateFillerText(){
-	lang = $('#langInput').val();
-	var urlRegards = translateURL('en', lang, "Best regards, ");
-	var urlBefore = translateURL('en', lang, "For your convenience, this message has been translated by Google Translate: ");
+// function updateFillerText(){
+// 	lang = $('#langInput').val();
+// 	var urlRegards = translateURL('en', lang, "Best regards, ");
+// 	var urlBefore = translateURL('en', lang, "For your convenience, this message has been translated by Google Translate: ");
 
 
-	translateRequest(urlRegards, function(response){
-		bestRegards = response[0];
-	});
-	translateRequest(urlBefore, function(response){
-		transBefore = response[0];
-	});
+// 	translateRequest(urlRegards, function(response){
+// 		bestRegards = response[0];
+// 	});
+// 	translateRequest(urlBefore, function(response){
+// 		transBefore = response[0];
+// 	});
 
-}
+// }
 
 btnToEng.click(translateToEng);
 
@@ -138,7 +136,7 @@ myMsg.on('paste keyup', function(e){
 });
 
 $('#langInput').on('paste keyup', function(e){
-	updateFillerText();
+	//updateFillerText();
 	setTimeout("translateToLang()", 100);
 });
 
