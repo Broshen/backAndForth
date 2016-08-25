@@ -89,19 +89,19 @@ function translateToLang(){
 
 	lang = $('#langInput').val();
 
-	var msgText = myMsg.val()
+	var msgText = myMsg.html();
 
 	var urlToLang = translateURL('en', lang, msgText);
 
 	translateRequest(urlToLang, function(response){
 
-		myTrans[0].innerText = response[0] +"\n\n"+ "------" + "\n\n"+ msgText;
+		myTrans[0].innerHTML = response[0] +"<br><br>"+ "------" + "<br><br>"+ msgText;
 
 		var urlBack = translateURL(lang, 'en', response[0]);
 
 		translateRequest(urlBack, function(response){
 			if(response[1]){				
-				$('#backInEng')[0].innerText = response[0];
+				$('#backInEng')[0].innerHTML= response[0];
 			}
 		})
 	});
