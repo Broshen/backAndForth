@@ -1,4 +1,3 @@
-
 //HTML Elements
 var btnToEng = $("#transToEng");
 var btnToLang = $("#transToLang");
@@ -145,4 +144,3 @@ clipboard.on('error', function(e) {
 });
 
 translateToLang();
-
