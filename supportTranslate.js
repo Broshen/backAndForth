@@ -1,28 +1,33 @@
 
+//HTML Elements
 var btnToEng = $("#transToEng");
 var btnToLang = $("#transToLang");
 var customerMsg = $("#customerMsg");
 var customerTrans = $("#customerTrans");
 var myMsg = $("#myMsg");
 var myTrans = $("#myTrans");
-var lang="en";
-var transBefore = "For your convenience, this message has been translated by Google Translate: "
-var bestRegards = "Best regards, ";
 var clipboardBtn = $('#clipboardBtn');
+
+//Set default language to english, and autodetect customer's language true
+var lang="en";
 var isAuto=true;
+
+//Variable to store message text
 var msgText;
 
+//Initialize select2 search bar
 var languageBar = $('#langInput').select2({ width: '150px' });
 
+//Function to create the google translate URL endpoint 
 function translateURL(sourceLang, transLang, message){
 	return "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + transLang + "&dt=t&q="+encodeURIComponent(message);
 }
 
+//function to parse the malformed JSON that google returns
 function parseResponse(response){
 	var responseText = "";
 	var responseLang = "";
 	response = response.replace(new RegExp(",{2,}", "g"), ",");
-
 	//to prevent the json parser from parsing incorrect json
 	if(response.indexOf(",")==1){
 		response = response.replace(',',"");
@@ -36,7 +41,7 @@ function parseResponse(response){
 		for(var i=0; i<response[0].length; i++){
 			responseText+=response[0][i][0];
 		}
-
+		responseText = responseText.replace(/& nbsp;/gi, '&nbsp;');
 	}
 	else{
 		responseText=" ";
@@ -47,6 +52,7 @@ function parseResponse(response){
 	return responseArr;
 }
 
+//function to send an async GET to the google translate URL
 function translateRequest(url, callbackfn){
 
 	$.get(url, function(data){},"text")
@@ -78,14 +84,11 @@ function translateToEng(){
     	if(isAuto && $('#langInput').val() != lang){
 			languageBar.val(lang).trigger('change');
 			translateToLang();
-			//updateFillerText();
     	}
 	});
 }
 
 function translateToLang(){
-
-	//updateFillerText();
 
 	lang = $('#langInput').val();
 
@@ -106,22 +109,6 @@ function translateToLang(){
 		})
 	});
 }
-
-
-// function updateFillerText(){
-// 	lang = $('#langInput').val();
-// 	var urlRegards = translateURL('en', lang, "Best regards, ");
-// 	var urlBefore = translateURL('en', lang, "For your convenience, this message has been translated by Google Translate: ");
-
-
-// 	translateRequest(urlRegards, function(response){
-// 		bestRegards = response[0];
-// 	});
-// 	translateRequest(urlBefore, function(response){
-// 		transBefore = response[0];
-// 	});
-
-// }
 
 btnToEng.click(translateToEng);
 
