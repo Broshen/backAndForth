@@ -83,7 +83,7 @@ document.onkeydown=function(e){
 		  };
 		}
 
-		xhttp.open("GET", "https://support.quicktapsurvey.com/support/search/solutions?term=" + encodeURI(selectedText), true);
+		xhttp.open("GET", "http://support.quicktapsurvey.com/support/search/solutions?term=" + encodeURI(selectedText), true);
 		xhttp.send();
 
         console.log("triggered");
