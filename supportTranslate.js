@@ -41,7 +41,8 @@ function parseResponse(response){
 		for(var i=0; i<response[0].length; i++){
 			responseText+=response[0][i][0];
 		}
-		responseText = responseText.replace(/& nbsp;/gi, '&nbsp;');
+		console.log(responseText);
+		responseText = responseText.replace(/&\s*nbsp\s*;/gi, '&nbsp;');
 	}
 	else{
 		responseText=" ";
