@@ -22,30 +22,16 @@ function translateURL(sourceLang, transLang, message){
 	return "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + transLang + "&dt=t&q="+encodeURIComponent(message);
 }
 
-//function to parse the malformed JSON that google returns
+//function to parse the JSON response and grab the text & language
 function parseResponse(response){
 	var responseText = "";
 	var responseLang = "";
-	response = response.replace(new RegExp(",{2,}", "g"), ",");
-	//to prevent the json parser from parsing incorrect json
-	if(response.indexOf(",")==1){
-		response = response.replace(',',"");
-	}
+
 
 	response = JSON.parse(response);
 
-	if(response[1] != 0){
-		responseLang = response[1];
-
-		for(var i=0; i<response[0].length; i++){
-			responseText+=response[0][i][0];
-		}
-		responseText = responseText.replace(/&\s*nbsp\s*;/gi, '&nbsp;');
-	}
-	else{
-		responseText=" ";
-		responseLang="en";
-	}
+	responseText = response[0][0][0].replace(/&\s*nbsp\s*;/gi, '&nbsp;');
+	responseLang = response[2]
 
 	var responseArr = [responseText, responseLang];
 	return responseArr;
@@ -53,12 +39,9 @@ function parseResponse(response){
 
 //function to send an async GET to the google translate URL
 function translateRequest(url, callbackfn){
-
 	$.get(url, function(data){},"text")
 		.then(function(data){
-
 	    	response = parseResponse(data);
-			
 			callbackfn(response);
 		});	
 }
