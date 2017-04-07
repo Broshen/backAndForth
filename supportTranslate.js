@@ -30,7 +30,10 @@ function parseResponse(response){
 
 	response = JSON.parse(response);
 
-	responseText = response[0][0][0].replace(/&\s*nbsp\s*;/gi, '&nbsp;');
+	for(var i=0; i<response[0].length; i++){
+		responseText += response[0][i][0].replace(/&\s*nbsp\s*;/gi, '&nbsp;');
+	}
+
 	responseLang = response[2]
 
 	var responseArr = [responseText, responseLang];
