@@ -25,6 +25,7 @@ body{
 	height: 80%;
 	overflow:auto;
 	word-wrap: break-word;
+	white-space: pre-wrap;
 }
 
 textarea{

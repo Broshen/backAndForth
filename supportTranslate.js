@@ -27,13 +27,11 @@ function parseResponse(response){
 	var responseText = "";
 	var responseLang = "";
 
-
 	response = JSON.parse(response);
 
 	for(var i=0; i<response[0].length; i++){
 		responseText += response[0][i][0].replace(/&\s*nbsp\s*;/gi, '&nbsp;');
 	}
-
 	responseLang = response[2]
 
 	var responseArr = [responseText, responseLang];
@@ -61,10 +59,11 @@ function translateToEng(){
 
 	var msgText = customerMsg.val();
 
+
 	var urlToEng = translateURL(LangFrom, 'en', msgText);
 
 	translateRequest(urlToEng, function(response){
-    	customerTrans[0].innerText = response[0];
+    	customerTrans[0].innerHTML = response[0].replace(/\n/g, "<br>");
     	lang = response[1];
     	if(isAuto && $('#langInput').val() != lang){
 			languageBar.val(lang).trigger('change');
@@ -77,12 +76,11 @@ function translateToLang(){
 
 	lang = $('#langInput').val();
 
-	var msgText = myMsg.html();
+	var msgText = myMsg.val();
 
 	var urlToLang = translateURL('en', lang, msgText);
 
 	translateRequest(urlToLang, function(response){
-
 		myTrans[0].innerHTML = response[0] +"<br><br>"+ "------" + "<br><br>"+ msgText;
 
 		var urlBack = translateURL(lang, 'en', response[0]);
